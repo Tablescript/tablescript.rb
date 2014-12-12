@@ -20,11 +20,15 @@ module TableScript
     end
   
     def lookup( index )
-      @entries.lookup( index )
+      @entries.lookup_and_evaluate( index )
     end
   
     def roll
       @entries.reroll
+    end
+    
+    def roll_and_ignore_duplicates( times, args )
+      @entries.reroll_and_ignore_duplicates( times, args )
     end
   
   end

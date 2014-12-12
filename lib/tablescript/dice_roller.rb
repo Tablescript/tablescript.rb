@@ -16,6 +16,7 @@ module TableScript
     end
   
     def roll_and_ignore( dice, args )
+      puts "ignoring #{args}"
       count, die = decode_dice( dice )
       ignored_values = collect_ignored_values( args )
       rolled_value = nil
