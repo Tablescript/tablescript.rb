@@ -1,4 +1,5 @@
 require 'tablescript/dice_roller'
+require 'tablescript/roll_descriptor'
 require 'tablescript/table'
 require 'tablescript/table_entry'
 require 'tablescript/table_entry_environment'
