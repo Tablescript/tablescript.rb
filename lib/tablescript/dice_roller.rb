@@ -11,8 +11,12 @@ module TableScript
     end
   
     def roll( dice )
-      count, die = decode_dice( dice )
-      roll_dice( count, die )
+      while m = dice.downcase.match( /\d*d\d+/ ) do
+        count, die = decode_dice( m[ 0 ] )
+        rolled_value = roll_dice( count, die )
+        dice[ m.begin( 0 )...m.end( 0 ) ] = rolled_value.to_s
+      end
+      eval( dice )
     end
   
     def roll_and_ignore( dice, args )
@@ -32,8 +36,7 @@ module TableScript
     private
   
       def decode_dice( dice )
-        count, die = dice.downcase.split( 'd' ).map { |n| n.empty? ? 1 : n.to_i }
-        return count, die
+        dice.downcase.split( 'd' ).map { |n| n.empty? ? 1 : n.to_i }
       end
     
       def collect_ignored_values( args )

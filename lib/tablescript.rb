@@ -25,3 +25,7 @@ def lookup( name, roll )
   raise "No table named '#{name}'" if $all_tables[ name ].nil?
   $all_tables[ name ].lookup( roll )
 end
+
+def roll_dice( dice )
+  TableScript::DiceRoller.new.roll( dice )
+end
