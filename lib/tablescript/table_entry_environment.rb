@@ -2,7 +2,8 @@ module TableScript
   
   class TableEntryEnvironment
   
-    def initialize( roller )
+    def initialize( table_name, roller )
+      @table_name = table_name
       @roller = roller
       @entries = []
     end
@@ -20,7 +21,22 @@ module TableScript
             @entries[ i - 1 ] = entry
           end
         end
-        raise "Too many parameters for f" unless args.empty?
+        raise "Too many parameters for f in table #{@table_name}" unless args.empty?
+      end
+    end
+    
+    def d( *args, &blk )
+      if args.empty?
+        @entries << TableEntry.new( blk )
+      else
+        count = args.shift
+        if count.class == Fixnum
+          entry = TableEntry.new( blk )
+          1.upto count do
+            @entries << entry
+          end
+        end
+        raise "Too many parameters for d in table #{@table_name}" unless args.empty?
       end
     end
   
@@ -59,7 +75,7 @@ module TableScript
     end
     
     def method_missing( method_id, *args )
-      raise "Undefined method #{method_id}"
+      raise "Undefined command '#{method_id}' in table #{@table_name}"
     end
   
     private

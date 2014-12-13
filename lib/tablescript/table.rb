@@ -11,7 +11,7 @@ module TableScript
     end
   
     def build( &blk )
-      @entries = TableEntryEnvironment.new( @roller )
+      @entries = TableEntryEnvironment.new( @name, @roller )
       @entries.instance_eval( &blk )
     end
   
