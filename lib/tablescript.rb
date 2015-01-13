@@ -18,13 +18,8 @@ def table( name, &blk )
 end
 
 def roll_on( name )
-  begin
-    raise "No table named '#{name}'" if $all_tables[ name ].nil?
-    $all_tables[ name ].roll
-  rescue Exception => e
-    puts e
-    exit
-  end
+  raise "No table named '#{name}'" if $all_tables[ name ].nil?
+  $all_tables[ name ].roll
 end
 
 def roll_on_and_ignore_duplicates( name, times, *args )
@@ -54,4 +49,8 @@ def roll_dice( dice )
     puts e
     exit
   end
+end
+
+def choose( options )
+  options[ TableScript::DiceRoller.new.random_value_in_range( 1..options.size ) - 1 ]
 end

@@ -4,10 +4,14 @@ module TableScript
   
     @@DICE_REGEXP = /(\d*)d(\d+)((dl)(\d*)|(dh)(\d*))?/
     
+    def random_value_in_range( range )
+      rand( range )
+    end
+    
     def roll_dice( roll_descriptor )
       rolled_values = []
       1.upto roll_descriptor.count do
-        rolled_values << rand( 1..roll_descriptor.die )
+        rolled_values << random_value_in_range( 1..roll_descriptor.die )
       end
       rolled_values.sort!
       rolled_values.slice!( 0, roll_descriptor.drop_lowest )

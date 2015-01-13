@@ -27,7 +27,7 @@ module TableScript
         if match[ 4 ] == "dl"
           @drop_lowest = 1
           @drop_lowest = match[ 5 ].to_i unless match[ 5 ].empty?
-        else match[ 6 ] == "dh"
+        elsif match[ 6 ] == "dh"
           @drop_highest = 1
           @drop_highest = match[ 7 ].to_i unless match[ 7 ].empty?
         end
