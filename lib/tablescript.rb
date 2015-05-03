@@ -4,6 +4,8 @@ require 'tablescript/table'
 require 'tablescript/table_entry'
 require 'tablescript/table_entry_environment'
 
+$LOAD_PATH.push File.expand_path( ENV[ "TS_PATH" ] ) unless ENV[ "TS_PATH" ].nil?
+
 $all_tables = {}
 
 def table( name, &blk )
