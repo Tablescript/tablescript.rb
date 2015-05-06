@@ -8,7 +8,7 @@ module TableScript
       @entries = []
     end
   
-    def f( *args, &blk )
+    def fixed( *args, &blk )
       if args.empty?
         @entries << TableEntry.new( blk )
       else
@@ -25,7 +25,9 @@ module TableScript
       end
     end
     
-    def d( *args, &blk )
+    alias :f :fixed
+    
+    def dynamic( *args, &blk )
       if args.empty?
         @entries << TableEntry.new( blk )
       else
@@ -39,6 +41,8 @@ module TableScript
         raise "Too many parameters for d in table #{@table_name}" unless args.empty?
       end
     end
+    
+    alias :d :dynamic
   
     def dice_to_roll
       "d#{@entries.size}"
