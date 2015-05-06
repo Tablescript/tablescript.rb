@@ -6,7 +6,7 @@ require 'tablescript/version'
 Gem::Specification.new do |s|
   s.name        = 'tablescript'
   s.version     = TableScript::VERSION
-  s.date        = '2014-12-11'
+  s.date        = '2015-05-05'
   s.summary     = "TableScript RPG Tool"
   s.description = "Library for creating role-playing game random tables."
   s.authors     = [ 'Jamie Hale' ]
