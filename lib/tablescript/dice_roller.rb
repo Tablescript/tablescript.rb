@@ -9,14 +9,10 @@ module TableScript
     end
     
     def roll_dice( roll_descriptor )
-      rolled_values = []
-      1.upto roll_descriptor.count do
-        rolled_values << random_value_in_range( 1..roll_descriptor.die )
-      end
-      rolled_values.sort!
-      rolled_values.slice!( 0, roll_descriptor.drop_lowest )
-      rolled_values.slice!( rolled_values.size - roll_descriptor.drop_highest, roll_descriptor.drop_highest )
-      rolled_values.inject( 0 ) { |total,rolled_value| total + rolled_value }
+      rolled_values = roll_all_dice_from_descriptor( roll_descriptor )
+      drop_lowest( rolled_values, roll_descriptor )
+      drop_highest( rolled_values, roll_descriptor )
+      total( rolled_values )
     end
   
     def roll( dice )
@@ -41,6 +37,26 @@ module TableScript
   
     private
   
+      def roll_all_dice_from_descriptor( roll_descriptor )
+        rolled_values = []
+        1.upto roll_descriptor.count do
+          rolled_values << random_value_in_range( 1..roll_descriptor.die )
+        end
+        rolled_values.sort
+      end
+      
+      def drop_lowest( rolled_values, roll_descriptor )
+        rolled_values.slice!( 0, roll_descriptor.drop_lowest )
+      end
+      
+      def drop_highest( rolled_values, roll_descriptor )
+        rolled_values.slice!( rolled_values.size - roll_descriptor.drop_highest, roll_descriptor.drop_highest )
+      end
+      
+      def total( rolled_values )
+        rolled_values.inject( :+ )
+      end
+      
       def collect_ignored_values( args )
         ignored_values = []
         until args.empty? do
