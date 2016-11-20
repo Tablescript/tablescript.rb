@@ -37,7 +37,7 @@ module TableScript
     end
   
     def lookup( index )
-      @entries.lookup_and_evaluate( index )
+      @entries.lookup( index )
     end
   
     def roll
