@@ -63,7 +63,7 @@ end
 
 def roll_dice( dice )
   begin
-    TableScript::DiceRoller.new.roll( dice )
+    TableScript::DiceRoller.new.roll( dice.dup )
   rescue Exception => e
     puts e
     exit
