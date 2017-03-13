@@ -34,4 +34,5 @@ Gem::Specification.new do |s|
   s.platform    = Gem::Platform::RUBY
   s.files       = `git ls-files -z`.split( "\x0" )
   s.require_paths = [ 'lib' ]
+  s.metadata['allowed_push_host'] = 'https://rubygems.org'
 end
