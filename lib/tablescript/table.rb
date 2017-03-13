@@ -25,24 +25,29 @@ module Tablescript
     def initialize(name, roller)
       @name = name
       @roller = roller
-      @entries = nil
+      @entries = []
     end
 
-    def build(&blk)
-      @entries = TableEntryEnvironment.new(@name, @roller)
-      @entries.instance_eval(&blk)
+    def add_entry(entry)
+      @entries << entry
     end
 
-    def random_entry
-      @roller.rollD(@entries.die_to_roll)
+    def set_entry(roll, entry)
+      raise "Duplicate entry for #{roll} in table #{@name}" unless @entries[roll - 1].nil?
+      @entries[roll - 1] = entry
     end
 
-    def lookup(index)
-      @entries.lookup(index)
+    def dice_to_roll
+      "d#{@entries.size}"
+    end
+
+    def lookup(roll)
+      @entries[roll - 1]
     end
 
     def roll
-      @entries.reroll
+      rolled_value = dice_to_roll.roll
+      lookup(rolled_value).evaluate(rolled_value)
     end
 
     def roll_and_ignore_duplicates(times, args)

@@ -20,12 +20,14 @@ module Tablescript
   # TableEntry
   #
   class TableEntry
-    def initialize(blk)
+    def initialize(blk, table)
       @blk = blk
+      @table = table
     end
 
     def evaluate(roll)
-      @blk.call(roll)
+      environment = TableEntryEnvironment.new(roll, @table)
+      environment.instance_eval(&@blk)
     end
   end
 end

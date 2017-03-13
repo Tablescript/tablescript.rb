@@ -23,6 +23,7 @@ require 'tablescript/table_entry_environment'
 
 $LOAD_PATH.push File.expand_path(ENV['TS_PATH']) unless ENV['TS_PATH'].nil?
 
+require 'tablescript/table_generator'
 require 'tablescript/library'
 require 'tablescript/api'
 require 'tablescript/string'

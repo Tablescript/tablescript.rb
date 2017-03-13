@@ -20,55 +20,25 @@ module Tablescript
   # TableEntryEnvironment
   #
   class TableEntryEnvironment
-    def initialize(table_name, roller)
-      @table_name = table_name
-      @roller = roller
-      @entries = []
+    def initialize(roll, table)
+      @roll = roll
+      @table = table
     end
 
-    def fixed(*args, &blk)
-      if args.empty?
-        @entries << TableEntry.new(blk)
-      else
-        roll = args.shift
-        if roll.is_a?(Integer)
-          @entries[roll - 1] = TableEntry.new(blk)
-        elsif roll.class == Range
-          entry = TableEntry.new(blk)
-          roll.each do |i|
-            @entries[i - 1] = entry
-          end
-        end
-        raise "Too many parameters for f in table #{@table_name}" unless args.empty?
-      end
+    def roll
+      @roll
     end
 
-    alias f fixed
-
-    def dynamic(*args, &blk)
-      if args.empty?
-        @entries << TableEntry.new(blk)
-      else
-        count = args.shift
-        if count.is_a?(Integer)
-          entry = TableEntry.new(blk)
-          1.upto count do
-            @entries << entry
-          end
-        end
-        raise "Too many parameters for d in table #{@table_name}" unless args.empty?
-      end
+    def table_name
+      @table.name
     end
-
-    alias d dynamic
 
     def dice_to_roll
-      "d#{@entries.size}"
+      @table.dice_to_roll
     end
 
-    def lookup(index)
-      raise "No table entry for a roll of #{index}." if index <= 0 || index > @entries.size
-      @entries[index - 1].evaluate(index)
+    def lookup(roll)
+      @table.lookup(roll).evaluate(roll)
     end
 
     def reroll
@@ -97,7 +67,7 @@ module Tablescript
     end
 
     def method_missing(method_id)
-      raise "Undefined command '#{method_id}' in table #{@table_name}"
+      raise "Undefined command '#{method_id}' in table #{@table.name}"
     end
 
     private

@@ -21,14 +21,8 @@ module Tablescript
   #
   class Api
     def self.table(name, &blk)
-      begin
-        new_table = Table.new(name, DiceRoller.new)
-        new_table.build(&blk)
-        Library.instance.add(new_table)
-      rescue StandardError => e
-        puts e
-        exit
-      end
+      generator = TableGenerator.new(name)
+      Library.instance.add(generator.generate(&blk))
     end
 
     def self.roll_on(name)

@@ -20,7 +20,7 @@ module Tablescript
   # DiceRoller
   #
   class DiceRoller
-    @@DICE_REGEXP = /(\d*)d(\d+)((dl)(\d*)|(dh)(\d*))?/
+    @@dice_regexp = /(\d*)d(\d+)((dl)(\d*)|(dh)(\d*))?/
 
     def random_value_in_range(range)
       rand(range)
@@ -34,7 +34,7 @@ module Tablescript
     end
 
     def roll(dice)
-      while m = dice.downcase.match(@@DICE_REGEXP) do
+      while m = dice.downcase.match(@@dice_regexp) do
         rolled_value = roll_dice(RollDescriptor.new(m))
         dice[m.begin(0)...m.end(0)] = rolled_value.to_s
       end
