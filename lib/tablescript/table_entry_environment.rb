@@ -42,14 +42,12 @@ module Tablescript
     end
 
     def reroll
-      rolled_value = @roller.roll(dice_to_roll)
-      lookup(rolled_value)
+      @table.roll
     end
 
     def reroll_and_ignore(*args)
       validate_ignored_values(args)
-      rolled_value = @roller.roll_and_ignore(dice_to_roll, args)
-      lookup(rolled_value)
+      @table.roll_and_ignore_values(ignored_values(args))
     end
 
     def reroll_and_ignore_duplicates(times, *args)
@@ -72,18 +70,8 @@ module Tablescript
 
     private
 
-    def entries_from_ignored_values(args)
-      entries = []
-      args.each do |arg|
-        if arg.is_a?(Integer)
-          entries << lookup(arg)
-        elsif arg.class == Range
-          arg.each do
-            entries << lookup(arg)
-          end
-        end
-      end
-      entries.uniq
+    def ignored_values(args)
+      args.inject(RollSet.new) { |a, e| a.add(e) ; a }
     end
 
     def validate_ignored_values(args)

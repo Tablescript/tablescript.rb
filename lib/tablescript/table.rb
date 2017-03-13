@@ -50,6 +50,15 @@ module Tablescript
       lookup(rolled_value).evaluate(rolled_value)
     end
 
+    def roll_and_ignore(rollset)
+      rolled_value = nil
+      loop do
+        rolled_value = dice_to_roll.roll
+        break unless rollset.include?(rolled_value)
+      end
+      lookup(rolled_value).evaluate(rolled_value)
+    end
+
     def roll_and_ignore_duplicates(times, args)
       @entries.reroll_and_ignore_duplicates(times, args)
     end

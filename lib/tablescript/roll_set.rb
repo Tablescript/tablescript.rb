@@ -1,3 +1,4 @@
+require 'set'
 
 module Tablescript
   ##
@@ -8,7 +9,7 @@ module Tablescript
 
     def initialize(*args)
       @rolls = Set.new
-      args.map(&:add)
+      args.each { |a| add(a) }
     end
 
     def include?(roll)

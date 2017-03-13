@@ -30,6 +30,11 @@ module Tablescript
       Library.instance.table(name).roll
     end
 
+    def self.roll_on_and_ignore(name, *args)
+      ensure_table_exists(name)
+      Library.instance.table(name).roll_and_ignore(RollSet.new(*args))
+    end
+
     def self.roll_on_and_ignore_duplicates(name, times, *args)
       ensure_table_exists(name)
       Library.instance.table(name).roll_and_ignore_duplicates(times, args)
@@ -64,6 +69,10 @@ def roll_on(name)
   Tablescript::Api.roll_on(name)
 end
 
+def roll_on_and_ignore(name, *args)
+  Tablescript::Api.roll_on_and_ignore(name, *args)
+end
+
 def roll_on_and_ignore_duplicates(name, times, *args)
   Tablescript::Api.roll_on_and_ignore_duplicates(name, times, *args)
 end
@@ -78,4 +87,8 @@ end
 
 def choose(options)
   Tablescript::Api.choose(options)
+end
+
+def roll_set(*args)
+  Tablescript::RollSet.new(*args)
 end
