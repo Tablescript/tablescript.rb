@@ -1,0 +1,9 @@
+Metrics/LineLength:
+    Enabled: false
+Metrics/ModuleLength:
+    Enabled: false
+Metrics/BlockLength:
+    Enabled: true
+    Exclude:
+        - res/*.rb
+        - spec/**/*.rb

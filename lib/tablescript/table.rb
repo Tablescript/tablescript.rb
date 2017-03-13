@@ -52,12 +52,11 @@ module Tablescript
       loop do
         roll = dice_to_roll.roll_and_ignore(rolls)
         entry = lookup(roll)
-        unless entries.include?(entry.id)
-          entries.add(entry.id) # record entry
-          rolls.add(entry.roll) # record roll
-          results << entry.evaluate(roll, self)
-          break if results.size == times
-        end
+        next if entries.include?(entry.id)
+        entries.add(entry.id) # record entry
+        rolls.add(entry.roll) # record roll
+        results << entry.evaluate(roll, self)
+        break if results.size == times
       end
       results
     end

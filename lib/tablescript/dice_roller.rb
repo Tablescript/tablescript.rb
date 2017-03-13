@@ -20,7 +20,7 @@ module Tablescript
   # DiceRoller
   #
   class DiceRoller
-    @@dice_regexp = /(\d*)d(\d+)((dl)(\d*)|(dh)(\d*))?/
+    DICE_REGEXP = /(\d*)d(\d+)((dl)(\d*)|(dh)(\d*))?/
 
     def random_value_in_range(range)
       rand(range)
@@ -35,7 +35,9 @@ module Tablescript
 
     def roll(dice)
       local_dice = dice.dup
-      while m = local_dice.downcase.match(@@dice_regexp) do
+      loop do
+        m = local_dice.downcase.match(DICE_REGEXP)
+        break if m.nil?
         rolled_value = roll_dice(RollDescriptor.new(m))
         local_dice[m.begin(0)...m.end(0)] = rolled_value.to_s
       end
@@ -76,7 +78,7 @@ module Tablescript
 
     def collect_ignored_values(args)
       ignored_values = []
-      until args.empty? do
+      until args.empty?
         value = args.shift
         if value.is_a?(Integer)
           ignored_values << value

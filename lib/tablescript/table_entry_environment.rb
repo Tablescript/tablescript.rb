@@ -20,13 +20,11 @@ module Tablescript
   # TableEntryEnvironment
   #
   class TableEntryEnvironment
+    attr_reader :roll
+
     def initialize(roll, table)
       @roll = roll
       @table = table
-    end
-
-    def roll
-      @roll
     end
 
     def table_name
@@ -53,7 +51,7 @@ module Tablescript
     def reroll_and_ignore_duplicates(times, *args)
       ignored_entries = entries_from_ignored_values(args)
       evaluated_rolled_entries = []
-      until evaluated_rolled_entries.size == times do
+      until evaluated_rolled_entries.size == times
         rolled_value = @roller.roll(dice_to_roll)
         rolled_entry = @entries[rolled_value - 1]
         unless ignored_entries.include? rolled_entry
@@ -64,14 +62,10 @@ module Tablescript
       evaluated_rolled_entries
     end
 
-    def method_missing(method_id)
-      raise "Undefined command '#{method_id}' in table #{@table.name}"
-    end
-
     private
 
     def ignored_values(args)
-      args.inject(RollSet.new) { |a, e| a.add(e) ; a }
+      args.each_with_object(RollSet.new) { |a, set| set.add(a) }
     end
 
     def validate_ignored_values(args)

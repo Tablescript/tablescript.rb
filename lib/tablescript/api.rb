@@ -45,8 +45,6 @@ module Tablescript
       Library.instance.table(name).lookup(roll).evaluate(roll).value
     end
 
-    private
-
     def self.ensure_table_exists(name)
       raise "No table named '#{name}'" unless Library.instance.table?(name)
     end

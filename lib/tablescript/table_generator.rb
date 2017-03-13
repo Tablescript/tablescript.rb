@@ -37,10 +37,9 @@ module Tablescript
         add_entry(blk)
       else
         count = args.shift
-        if count.is_a?(Integer)
-          add_count(count, blk)
-        end
-        raise "Extra parameters (#{args.join(',')}) for d in table #{@name}" unless args.empty?
+        raise Exception, "Unrecognized parameter type (#{count}) for dynamic roll definition in #{@name}" unless count.is_a?(Integer)
+        add_count(count, blk)
+        raise Exception, "Extra parameters (#{args.join(',')}) for d in table #{@name}" unless args.empty?
       end
     end
 
