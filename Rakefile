@@ -1,4 +1,11 @@
-require "bundler/gem_tasks"
+require 'bundler/gem_tasks'
 require 'rake/clean'
-require 'rubygems'
-require 'rubygems/package_task'
+require 'rspec/core/rake_task'
+
+RSpec::Core::RakeTask.new(:spec)
+
+task default: :spec
+
+task :rubocop do
+  sh 'bundle exec rubocop'
+end

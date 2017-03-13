@@ -14,7 +14,7 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with Tablescript.  If not, see <http://www.gnu.org/licenses/>.
-    
-module TableScript
-  VERSION = "0.0.4"
+
+module Tablescript
+  VERSION = '0.0.4'.freeze
 end

@@ -14,40 +14,39 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with Tablescript.  If not, see <http://www.gnu.org/licenses/>.
-    
-module TableScript
-  
+
+module Tablescript
+  ##
+  # Table
+  #
   class Table
-  
     attr_reader :entries
-  
-    def initialize( name, roller )
+
+    def initialize(name, roller)
       @name = name
       @roller = roller
       @entries = nil
     end
-  
-    def build( &blk )
-      @entries = TableEntryEnvironment.new( @name, @roller )
-      @entries.instance_eval( &blk )
+
+    def build(&blk)
+      @entries = TableEntryEnvironment.new(@name, @roller)
+      @entries.instance_eval(&blk)
     end
-  
+
     def random_entry
-      @roller.rollD( @entries.die_to_roll )
+      @roller.rollD(@entries.die_to_roll)
     end
-  
-    def lookup( index )
-      @entries.lookup( index )
+
+    def lookup(index)
+      @entries.lookup(index)
     end
-  
+
     def roll
       @entries.reroll
     end
-    
-    def roll_and_ignore_duplicates( times, args )
-      @entries.reroll_and_ignore_duplicates( times, args )
-    end
-  
-  end
 
+    def roll_and_ignore_duplicates(times, args)
+      @entries.reroll_and_ignore_duplicates(times, args)
+    end
+  end
 end

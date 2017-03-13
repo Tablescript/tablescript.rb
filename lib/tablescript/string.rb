@@ -14,7 +14,10 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with Tablescript.  If not, see <http://www.gnu.org/licenses/>.
-    
+
+##
+# String Patch
+#
 class String
   def roll
     roll_dice(self)

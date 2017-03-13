@@ -14,18 +14,18 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with Tablescript.  If not, see <http://www.gnu.org/licenses/>.
-    
-module TableScript
-  
+
+module Tablescript
+  ##
+  # TableEntry
+  #
   class TableEntry
-    
-    def initialize( blk )
+    def initialize(blk)
       @blk = blk
     end
-    
-    def evaluate( roll )
-      @blk.call( roll )
+
+    def evaluate(roll)
+      @blk.call(roll)
     end
   end
-
 end
