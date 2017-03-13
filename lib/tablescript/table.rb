@@ -22,25 +22,9 @@ module Tablescript
   class Table
     attr_reader :name, :entries
 
-    def initialize(name, roller)
+    def initialize(name, entries)
       @name = name
-      @roller = roller
-      @entries = []
-    end
-
-    def add_entry(entry)
-      @entries << entry
-    end
-
-    def set_entry(roll, entry)
-      raise "Duplicate entry for #{roll} in table #{@name}" unless @entries[roll - 1].nil?
-      @entries[roll - 1] = entry
-    end
-
-    def set_range(roll_range, entry)
-      roll_range.each do |roll|
-        set_entry(roll, entry)
-      end
+      @entries = entries
     end
 
     def dice_to_roll
@@ -53,20 +37,29 @@ module Tablescript
 
     def roll
       rolled_value = dice_to_roll.roll
-      lookup(rolled_value).evaluate(rolled_value)
+      lookup(rolled_value).evaluate(rolled_value, self)
     end
 
     def roll_and_ignore(rollset)
-      rolled_value = nil
-      loop do
-        rolled_value = dice_to_roll.roll
-        break unless rollset.include?(rolled_value)
-      end
-      lookup(rolled_value).evaluate(rolled_value)
+      rolled_value = dice_to_roll.roll_and_ignore(rollset)
+      lookup(rolled_value).evaluate(rolled_value, self)
     end
 
-    def roll_and_ignore_duplicates(times, args)
-      @entries.reroll_and_ignore_duplicates(times, args)
+    def roll_and_ignore_duplicates(times)
+      entries = Set.new
+      rolls = RollSet.new
+      results = []
+      loop do
+        roll = dice_to_roll.roll_and_ignore(rolls)
+        entry = lookup(roll)
+        unless entries.include?(entry.id)
+          entries.add(entry.id) # record entry
+          rolls.add(entry.roll) # record roll
+          results << entry.evaluate(roll, self)
+          break if results.size == times
+        end
+      end
+      results
     end
   end
 end

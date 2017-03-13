@@ -21,9 +21,13 @@ module Tablescript
         @rolls.add(r)
       elsif r.is_a?(Range)
         r.to_a.map { |e| @rolls.add(e) }
-      elsif roll.is_a?(RollSet)
+      elsif r.is_a?(RollSet)
         @rolls.merge(r.rolls)
       end
+    end
+
+    def to_s
+      @rolls.to_a.join(', ')
     end
   end
 end

@@ -20,14 +20,17 @@ module Tablescript
   # TableEntry
   #
   class TableEntry
-    def initialize(blk, table)
+    attr_reader :id, :roll
+
+    def initialize(id, roll, blk)
+      @id = id
+      @roll = roll
       @blk = blk
-      @table = table
     end
 
-    def evaluate(roll)
-      environment = TableEntryEnvironment.new(roll, @table)
-      environment.instance_eval(&@blk)
+    def evaluate(roll, table)
+      environment = TableEntryEnvironment.new(roll, table)
+      Result.new(roll, environment.instance_eval(&@blk))
     end
   end
 end

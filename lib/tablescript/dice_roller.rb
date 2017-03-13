@@ -34,19 +34,20 @@ module Tablescript
     end
 
     def roll(dice)
-      while m = dice.downcase.match(@@dice_regexp) do
+      local_dice = dice.dup
+      while m = local_dice.downcase.match(@@dice_regexp) do
         rolled_value = roll_dice(RollDescriptor.new(m))
-        dice[m.begin(0)...m.end(0)] = rolled_value.to_s
+        local_dice[m.begin(0)...m.end(0)] = rolled_value.to_s
       end
-      eval(dice)
+      eval(local_dice)
     end
 
-    def roll_and_ignore(dice, args)
-      ignored_values = collect_ignored_values(args)
+    def roll_and_ignore(dice, *args)
+      ignored_values = RollSet.new(*args)
       rolled_value = nil
-      while rolled_value.nil? do
+      loop do
         rolled_value = roll(dice)
-        rolled_value = nil if ignored_values.include? rolled_value
+        break unless ignored_values.include?(rolled_value)
       end
       rolled_value
     end

@@ -15,9 +15,11 @@
 # You should have received a copy of the GNU General Public License
 # along with Tablescript.  If not, see <http://www.gnu.org/licenses/>.
 
+require 'tablescript/exception'
 require 'tablescript/roll_set'
 require 'tablescript/dice_roller'
 require 'tablescript/roll_descriptor'
+require 'tablescript/result'
 require 'tablescript/table'
 require 'tablescript/table_entry'
 require 'tablescript/table_entry_environment'

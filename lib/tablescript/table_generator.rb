@@ -4,25 +4,29 @@ module Tablescript
   #
   class TableGenerator
     def initialize(name)
-      @table = Table.new(name, DiceRoller.new)
+      @name = name
+      @entries = []
+      @next_id = 0
     end
 
     def generate(&blk)
       instance_eval(&blk)
-      @table
+      Table.new(@name, @entries)
     end
 
     def fixed(*args, &blk)
       if args.empty?
-        @table.add_entry(TableEntry.new(blk, @table))
+        add_entry(blk)
       else
         roll = args.shift
         if roll.is_a?(Integer)
-          @table.set_entry(roll, TableEntry.new(blk, @table))
+          set_entry(roll, blk)
         elsif roll.is_a?(Range)
-          @table.set_range(roll, TableEntry.new(blk, @table))
+          set_range(roll, blk)
+        else
+          raise Exception, "Unrecognized parameter type (#{roll.class}) for fixed roll definition in #{@name}"
         end
-        raise "Too many parameters for f in table #{@table.name}" unless args.empty?
+        raise Exception, "Extra parameters (#{args.join(',')}) for f in table #{@name}" unless args.empty?
       end
     end
 
@@ -30,19 +34,46 @@ module Tablescript
 
     def dynamic(*args, &blk)
       if args.empty?
-        @table.add_entry(TableEntry.new(blk, @table))
+        add_entry(blk)
       else
         count = args.shift
         if count.is_a?(Integer)
-          entry = TableEntry.new(blk, @table)
-          1.upto count do
-            @table.add_entry(entry)
-          end
+          add_count(count, blk)
         end
-        raise "Too many parameters for d in table #{@table.name}" unless args.empty?
+        raise "Extra parameters (#{args.join(',')}) for d in table #{@name}" unless args.empty?
       end
     end
 
     alias d dynamic
+
+    private
+
+    def next_id
+      id = @next_id
+      @next_id += 1
+      id
+    end
+
+    def next_single_roll
+      @entries.size + 1
+    end
+
+    def add_entry(blk)
+      @entries << TableEntry.new(next_id, next_single_roll, blk)
+    end
+
+    def add_cont(count, blk)
+      entry = TableEntry.new(next_id, range, blk)
+      count.times { @entries << entry }
+    end
+
+    def set_entry(roll, blk)
+      @entries[roll - 1] = TableEntry.new(next_id, roll, blk)
+    end
+
+    def set_range(range, blk)
+      entry = TableEntry.new(next_id, range, blk)
+      range.each { |r| @entries[r - 1] = entry }
+    end
   end
 end

@@ -27,30 +27,22 @@ module Tablescript
 
     def self.roll_on(name)
       ensure_table_exists(name)
-      Library.instance.table(name).roll
+      Library.instance.table(name).roll.value
     end
 
     def self.roll_on_and_ignore(name, *args)
       ensure_table_exists(name)
-      Library.instance.table(name).roll_and_ignore(RollSet.new(*args))
+      Library.instance.table(name).roll_and_ignore(RollSet.new(*args)).value
     end
 
-    def self.roll_on_and_ignore_duplicates(name, times, *args)
+    def self.roll_on_and_ignore_duplicates(name, times)
       ensure_table_exists(name)
-      Library.instance.table(name).roll_and_ignore_duplicates(times, args)
+      Library.instance.table(name).roll_and_ignore_duplicates(times).map(&:value)
     end
 
     def self.lookup(name, roll)
       ensure_table_exists(name)
-      Library.instance.table(name).lookup(roll)
-    end
-
-    def self.roll_dice(dice)
-      Tablescript::DiceRoller.new.roll(dice.dup)
-    end
-
-    def self.choose(options)
-      options[DiceRoller.new.random_value_in_range(1..options.size) - 1]
+      Library.instance.table(name).lookup(roll).evaluate(roll).value
     end
 
     private
@@ -73,8 +65,8 @@ def roll_on_and_ignore(name, *args)
   Tablescript::Api.roll_on_and_ignore(name, *args)
 end
 
-def roll_on_and_ignore_duplicates(name, times, *args)
-  Tablescript::Api.roll_on_and_ignore_duplicates(name, times, *args)
+def roll_on_and_ignore_duplicates(name, times)
+  Tablescript::Api.roll_on_and_ignore_duplicates(name, times)
 end
 
 def lookup(name, roll)
@@ -82,11 +74,15 @@ def lookup(name, roll)
 end
 
 def roll_dice(dice)
-  Tablescript::Api.roll_dice(dice)
+  Tablescript::DiceRoller.new.roll(dice.dup)
+end
+
+def roll_dice_and_ignore(dice, *args)
+  Tablescript::DiceRoller.new.roll_and_ignore(dice.dup, *args)
 end
 
 def choose(options)
-  Tablescript::Api.choose(options)
+  options[Tablescript::DiceRoller.new.random_value_in_range(1..options.size) - 1]
 end
 
 def roll_set(*args)

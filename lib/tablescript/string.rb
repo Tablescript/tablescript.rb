@@ -20,6 +20,10 @@
 #
 class String
   def roll
-    roll_dice(self)
+    Tablescript::DiceRoller.new.roll(self)
+  end
+
+  def roll_and_ignore(*args)
+    Tablescript::DiceRoller.new.roll_and_ignore(self, Tablescript::RollSet.new(*args))
   end
 end
