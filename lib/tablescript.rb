@@ -73,3 +73,9 @@ end
 def choose( options )
   options[ TableScript::DiceRoller.new.random_value_in_range( 1..options.size ) - 1 ]
 end
+
+class String
+  def roll
+    roll_dice(self)
+  end
+end
