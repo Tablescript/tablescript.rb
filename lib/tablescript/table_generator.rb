@@ -20,10 +20,7 @@ module Tablescript
         if roll.is_a?(Integer)
           @table.set_entry(roll, TableEntry.new(blk, @table))
         elsif roll.is_a?(Range)
-          entry = TableEntry.new(blk, @table)
-          roll.each do |i|
-            @table.set_entry(i, entry)
-          end
+          @table.set_range(roll, TableEntry.new(blk, @table))
         end
         raise "Too many parameters for f in table #{@table.name}" unless args.empty?
       end

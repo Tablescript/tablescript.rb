@@ -37,6 +37,12 @@ module Tablescript
       @entries[roll - 1] = entry
     end
 
+    def set_range(roll_range, entry)
+      roll_range.each do |roll|
+        set_entry(roll, entry)
+      end
+    end
+
     def dice_to_roll
       "d#{@entries.size}"
     end
