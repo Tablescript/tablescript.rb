@@ -30,7 +30,7 @@ module TableScript
         @entries << TableEntry.new( blk )
       else
         roll = args.shift
-        if roll.class == Fixnum
+        if roll.is_a?(Integer)
           @entries[ roll - 1 ] = TableEntry.new( blk )
         elsif roll.class == Range
           entry = TableEntry.new( blk )
@@ -49,7 +49,7 @@ module TableScript
         @entries << TableEntry.new( blk )
       else
         count = args.shift
-        if count.class == Fixnum
+        if count.is_a?(Integer)
           entry = TableEntry.new( blk )
           1.upto count do
             @entries << entry
@@ -104,7 +104,7 @@ module TableScript
       def entries_from_ignored_values( args )
         entries = []
         args.each do |arg|
-          if arg.class == Fixnum
+          if arg.is_a?(Integer)
             entries << lookup( arg )
           elsif arg.class == Range
             arg.each do |i|

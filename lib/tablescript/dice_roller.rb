@@ -78,7 +78,7 @@ module TableScript
         ignored_values = []
         until args.empty? do
           value = args.shift
-          if value.class == Fixnum
+          if value.is_a?(Integer)
             ignored_values << value
           elsif value.class == Range
             value.each do |i|
