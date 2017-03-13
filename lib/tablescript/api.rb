@@ -15,8 +15,6 @@
 # You should have received a copy of the GNU General Public License
 # along with Tablescript.  If not, see <http://www.gnu.org/licenses/>.
 
-$all_tables = {}
-
 module Tablescript
   ##
   # Api
@@ -26,7 +24,7 @@ module Tablescript
       begin
         new_table = Table.new(name, DiceRoller.new)
         new_table.build(&blk)
-        $all_tables[name] = new_table
+        Library.instance.add(new_table)
       rescue StandardError => e
         puts e
         exit
@@ -35,17 +33,17 @@ module Tablescript
 
     def self.roll_on(name)
       ensure_table_exists(name)
-      $all_tables[name].roll
+      Library.instance.table(name).roll
     end
 
     def self.roll_on_and_ignore_duplicates(name, times, *args)
       ensure_table_exists(name)
-      $all_tables[name].roll_and_ignore_duplicates(times, args)
+      Library.instance.table(name).roll_and_ignore_duplicates(times, args)
     end
 
     def self.lookup(name, roll)
       ensure_table_exists(name)
-      $all_tables[name].lookup(roll)
+      Library.instance.table(name).lookup(roll)
     end
 
     def self.roll_dice(dice)
@@ -59,7 +57,7 @@ module Tablescript
     private
 
     def self.ensure_table_exists(name)
-      raise "No table named '#{name}'" if $all_tables[name].nil?
+      raise "No table named '#{name}'" unless Library.instance.table?(name)
     end
   end
 end

@@ -15,14 +15,30 @@
 # You should have received a copy of the GNU General Public License
 # along with Tablescript.  If not, see <http://www.gnu.org/licenses/>.
 
-require 'tablescript/dice_roller'
-require 'tablescript/roll_descriptor'
-require 'tablescript/table'
-require 'tablescript/table_entry'
-require 'tablescript/table_entry_environment'
+require 'singleton'
 
-$LOAD_PATH.push File.expand_path(ENV['TS_PATH']) unless ENV['TS_PATH'].nil?
+module Tablescript
+  ##
+  # Library
+  #
+  class Library
+    include Singleton
 
-require 'tablescript/library'
-require 'tablescript/api'
-require 'tablescript/string'
+    def initialize
+      @tables = {}
+    end
+
+    def add(table)
+      raise Exception, "Table #{table.name} already defined" if @tables.key?(table.name)
+      @tables[table.name] = table
+    end
+
+    def table(name)
+      @tables[name]
+    end
+
+    def table?(name)
+      @tables.key?(name)
+    end
+  end
+end

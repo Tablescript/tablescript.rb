@@ -20,7 +20,7 @@ module Tablescript
   # Table
   #
   class Table
-    attr_reader :entries
+    attr_reader :name, :entries
 
     def initialize(name, roller)
       @name = name
