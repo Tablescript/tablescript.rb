@@ -45,28 +45,14 @@ module Tablescript
 
     def reroll_and_ignore(*args)
       validate_ignored_values(args)
-      @table.roll_and_ignore_values(ignored_values(args))
+      @table.roll_and_ignore_values(RollSet.new(*args))
     end
 
     def reroll_and_ignore_duplicates(times, *args)
-      ignored_entries = entries_from_ignored_values(args)
-      evaluated_rolled_entries = []
-      until evaluated_rolled_entries.size == times
-        rolled_value = @roller.roll(dice_to_roll)
-        rolled_entry = @entries[rolled_value - 1]
-        unless ignored_entries.include? rolled_entry
-          ignored_entries << rolled_entry
-          evaluated_rolled_entries << rolled_entry.evaluate(rolled_value)
-        end
-      end
-      evaluated_rolled_entries
+      @table.roll_and_ignore_duplicates(times, *args)
     end
 
     private
-
-    def ignored_values(args)
-      args.each_with_object(RollSet.new) { |a, set| set.add(a) }
-    end
 
     def validate_ignored_values(args)
       raise 'No ignored values specified' if args.empty?

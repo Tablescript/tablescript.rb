@@ -72,15 +72,15 @@ def lookup(name, roll)
 end
 
 def roll_dice(dice)
-  Tablescript::DiceRoller.new.roll(dice.dup)
+  Tablescript::DiceRoller.instance.roll(dice.dup)
 end
 
 def roll_dice_and_ignore(dice, *args)
-  Tablescript::DiceRoller.new.roll_and_ignore(dice.dup, *args)
+  Tablescript::DiceRoller.instance.roll_and_ignore(dice.dup, *args)
 end
 
 def choose(options)
-  options[Tablescript::DiceRoller.new.random_value_in_range(1..options.size) - 1]
+  options[Tablescript::DiceRoller.instance.random_value_in_range(1..options.size) - 1]
 end
 
 def roll_set(*args)

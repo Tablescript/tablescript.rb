@@ -15,11 +15,15 @@
 # You should have received a copy of the GNU General Public License
 # along with Tablescript.  If not, see <http://www.gnu.org/licenses/>.
 
+require 'singleton'
+
 module Tablescript
   ##
   # DiceRoller
   #
   class DiceRoller
+    include Singleton
+
     DICE_REGEXP = /(\d*)d(\d+)((dl)(\d*)|(dh)(\d*))?/
 
     def random_value_in_range(range)

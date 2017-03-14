@@ -36,12 +36,12 @@ module Tablescript
     end
 
     def roll
-      rolled_value = dice_to_roll.roll
+      rolled_value = DiceRoller.instance.random_value_in_range(1..@entries.size)
       lookup(rolled_value).evaluate(rolled_value, self)
     end
 
     def roll_and_ignore(rollset)
-      rolled_value = dice_to_roll.roll_and_ignore(rollset)
+      rolled_value = DiceRoller.instance.roll_and_ignore(dice_to_roll, rollset)
       lookup(rolled_value).evaluate(rolled_value, self)
     end
 
@@ -50,7 +50,7 @@ module Tablescript
       rolls = RollSet.new
       results = []
       loop do
-        roll = dice_to_roll.roll_and_ignore(rolls)
+        roll = DiceRoller.instance.roll_and_ignore(dice_to_roll, rolls)
         entry = lookup(roll)
         next if entries.include?(entry.id)
         entries.add(entry.id) # record entry
