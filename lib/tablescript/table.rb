@@ -28,7 +28,7 @@ module Tablescript
     end
 
     def dice_to_roll
-      "d#{@entries.size}"
+      "d#{size}"
     end
 
     def size
@@ -40,6 +40,7 @@ module Tablescript
     end
 
     def lookup(roll)
+      raise Exception, "No such entry (#{roll}) in table #{@name}" if entry(roll - 1).nil?
       entry(roll - 1)
     end
 
