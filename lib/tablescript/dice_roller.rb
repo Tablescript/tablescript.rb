@@ -48,8 +48,7 @@ module Tablescript
       eval(local_dice)
     end
 
-    def roll_and_ignore(dice, *args)
-      ignored_values = RollSet.new(*args)
+    def roll_and_ignore(dice, ignored_values)
       rolled_value = nil
       loop do
         rolled_value = roll(dice)

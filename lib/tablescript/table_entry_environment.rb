@@ -22,9 +22,10 @@ module Tablescript
   class TableEntryEnvironment
     attr_reader :roll
 
-    def initialize(roll, table)
+    def initialize(roll, table, entry)
       @roll = roll
       @table = table
+      @entry = entry
     end
 
     def table_name
@@ -40,22 +41,15 @@ module Tablescript
     end
 
     def reroll
-      @table.roll
+      RollStrategy.new(@table).value
     end
 
     def reroll_and_ignore(*args)
-      validate_ignored_values(args)
-      @table.roll_and_ignore_values(RollSet.new(*args))
+      RollAndIgnoreStrategy.new(@table, RollSet.new(*args)).value
     end
 
-    def reroll_and_ignore_duplicates(times, *args)
-      @table.roll_and_ignore_duplicates(times, *args)
-    end
-
-    private
-
-    def validate_ignored_values(args)
-      raise 'No ignored values specified' if args.empty?
+    def reroll_and_ignore_duplicates(times)
+      RollAndIgnoreDuplicatesStrategy.new(@table, times, RollSet.new(entry.roll)).values
     end
   end
 end

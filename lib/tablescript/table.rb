@@ -31,34 +31,16 @@ module Tablescript
       "d#{@entries.size}"
     end
 
+    def size
+      @entries.size
+    end
+
+    def entry(index)
+      @entries[index]
+    end
+
     def lookup(roll)
-      @entries[roll - 1]
-    end
-
-    def roll
-      rolled_value = DiceRoller.instance.random_value_in_range(1..@entries.size)
-      lookup(rolled_value).evaluate(rolled_value, self)
-    end
-
-    def roll_and_ignore(rollset)
-      rolled_value = DiceRoller.instance.roll_and_ignore(dice_to_roll, rollset)
-      lookup(rolled_value).evaluate(rolled_value, self)
-    end
-
-    def roll_and_ignore_duplicates(times)
-      entries = Set.new
-      rolls = RollSet.new
-      results = []
-      loop do
-        roll = DiceRoller.instance.roll_and_ignore(dice_to_roll, rolls)
-        entry = lookup(roll)
-        next if entries.include?(entry.id)
-        entries.add(entry.id) # record entry
-        rolls.add(entry.roll) # record roll
-        results << entry.evaluate(roll, self)
-        break if results.size == times
-      end
-      results
+      entry(roll - 1)
     end
   end
 end

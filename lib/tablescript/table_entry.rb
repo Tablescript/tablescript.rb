@@ -29,8 +29,8 @@ module Tablescript
     end
 
     def evaluate(roll, table)
-      environment = TableEntryEnvironment.new(roll, table)
-      Result.new(roll, environment.instance_eval(&@blk))
+      environment = TableEntryEnvironment.new(roll, table, self)
+      environment.instance_eval(&@blk)
     end
   end
 end

@@ -27,22 +27,22 @@ module Tablescript
 
     def self.roll_on(name)
       ensure_table_exists(name)
-      Library.instance.table(name).roll.value
+      RollStrategy.new(Library.instance.table(name)).value
     end
 
     def self.roll_on_and_ignore(name, *args)
       ensure_table_exists(name)
-      Library.instance.table(name).roll_and_ignore(RollSet.new(*args)).value
+      RollAndIgnoreStrategy.new(Library.instance.table(name), RollSet.new(*args)).value
     end
 
     def self.roll_on_and_ignore_duplicates(name, times)
       ensure_table_exists(name)
-      Library.instance.table(name).roll_and_ignore_duplicates(times).map(&:value)
+      RollAndIgnoreDuplicatesStrategy.new(Library.instance.table(name), times).values
     end
 
     def self.lookup(name, roll)
       ensure_table_exists(name)
-      Library.instance.table(name).lookup(roll).evaluate(roll).value
+      LookupStrategy.new(Library.instance.table(name), roll).value
     end
 
     def self.ensure_table_exists(name)
@@ -76,7 +76,7 @@ def roll_dice(dice)
 end
 
 def roll_dice_and_ignore(dice, *args)
-  Tablescript::DiceRoller.instance.roll_and_ignore(dice.dup, *args)
+  Tablescript::DiceRoller.instance.roll_and_ignore(dice.dup, Tablescript::RollSet.new(*args))
 end
 
 def choose(options)
