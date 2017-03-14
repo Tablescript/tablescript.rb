@@ -20,7 +20,7 @@ module Tablescript
   # TableEntry
   #
   class TableEntry
-    attr_reader :id, :roll
+    attr_reader :id, :roll, :blk
 
     def initialize(id, roll, blk)
       @id = id

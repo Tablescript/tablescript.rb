@@ -21,8 +21,9 @@ module Tablescript
   #
   class Api
     def self.table(name, &blk)
-      generator = TableGenerator.new(name)
-      Library.instance.add(generator.generate(&blk))
+      generator = TableGenerator.new
+      generator.instance_eval(&blk)
+      Library.instance.add(Table.new(name, generator.entries))
     end
 
     def self.roll_on(name)

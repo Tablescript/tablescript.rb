@@ -16,6 +16,10 @@ module Tablescript
       it 'knows its roll' do
         expect(entry.roll).to eq(:roll)
       end
+
+      it 'knows its blk' do
+        expect(entry.blk).to eq(:blk)
+      end
     end
 
     describe 'evaluate' do

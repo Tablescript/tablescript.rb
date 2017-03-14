@@ -3,44 +3,31 @@ module Tablescript
   # TableGenerator
   #
   class TableGenerator
-    def initialize(name)
-      @name = name
+    attr_reader :entries
+
+    def initialize
       @entries = []
       @next_id = 0
     end
 
-    def generate(&blk)
-      instance_eval(&blk)
-      Table.new(@name, @entries)
-    end
-
-    def fixed(*args, &blk)
-      if args.empty?
+    def fixed(roll = nil, &blk)
+      if roll.nil?
         add_entry(blk)
+      elsif roll.is_a?(Integer)
+        set_entry(roll, blk)
+      elsif roll.is_a?(Range)
+        set_range(roll, blk)
       else
-        roll = args.shift
-        if roll.is_a?(Integer)
-          set_entry(roll, blk)
-        elsif roll.is_a?(Range)
-          set_range(roll, blk)
-        else
-          raise Exception, "Unrecognized parameter type (#{roll.class}) for fixed roll definition in #{@name}"
-        end
-        raise Exception, "Extra parameters (#{args.join(',')}) for f in table #{@name}" unless args.empty?
+        raise Exception, "Unrecognized parameter type (#{roll.class}) for fixed roll definition"
       end
     end
 
     alias f fixed
 
-    def dynamic(*args, &blk)
-      if args.empty?
-        add_entry(blk)
-      else
-        count = args.shift
-        raise Exception, "Unrecognized parameter type (#{count}) for dynamic roll definition in #{@name}" unless count.is_a?(Integer)
-        add_count(count, blk)
-        raise Exception, "Extra parameters (#{args.join(',')}) for d in table #{@name}" unless args.empty?
-      end
+    def dynamic(count = 1, &blk)
+      range = next_single_roll..(next_single_roll + count - 1)
+      entry = TableEntry.new(next_id, range, blk)
+      count.times { @entries << entry }
     end
 
     alias d dynamic
@@ -59,11 +46,6 @@ module Tablescript
 
     def add_entry(blk)
       @entries << TableEntry.new(next_id, next_single_roll, blk)
-    end
-
-    def add_cont(count, blk)
-      entry = TableEntry.new(next_id, range, blk)
-      count.times { @entries << entry }
     end
 
     def set_entry(roll, blk)
