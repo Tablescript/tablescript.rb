@@ -3,8 +3,9 @@ module Tablescript
   # RollStrategy
   #
   class RollStrategy
-    def initialize(table)
+    def initialize(table, roller = nil)
       @table = table
+      @roller = roller || DiceRoller.instance
       @roll = nil
       @value = nil
     end
@@ -23,7 +24,7 @@ module Tablescript
 
     def evaluate
       return unless @roll.nil?
-      @roll = DiceRoller.instance.roll(@table.dice_to_roll)
+      @roll = @roller.roll(@table.dice_to_roll)
       @value = @table.evaluate(@roll)
     end
   end
