@@ -12,6 +12,10 @@ module Tablescript
       args.each { |a| add(a) }
     end
 
+    def empty?
+      @rolls.empty?
+    end
+
     def include?(roll)
       @rolls.include?(roll)
     end
@@ -23,6 +27,8 @@ module Tablescript
         r.to_a.map { |e| @rolls.add(e) }
       elsif r.is_a?(RollSet)
         @rolls.merge(r.rolls)
+      else
+        raise Exception, "Invalid type (#{r.class}) added to roll set"
       end
     end
 
