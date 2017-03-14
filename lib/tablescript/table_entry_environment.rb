@@ -49,7 +49,7 @@ module Tablescript
     end
 
     def reroll_and_ignore_duplicates(times)
-      RollAndIgnoreDuplicatesStrategy.new(@table, times, RollSet.new(entry.roll)).values
+      RollAndIgnoreDuplicatesStrategy.new(@table, times, RollSet.new(@entry.roll)).values
     end
   end
 end
