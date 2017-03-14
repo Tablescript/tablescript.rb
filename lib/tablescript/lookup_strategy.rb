@@ -18,7 +18,7 @@ module Tablescript
 
     def evaluate
       return unless @value.nil?
-      @table.lookup(@roll).evaluate(@roll, @table)
+      @value = @table.evaluate(@roll)
     end
   end
 end

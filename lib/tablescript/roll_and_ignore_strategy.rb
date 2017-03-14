@@ -25,7 +25,7 @@ module Tablescript
     def evaluate
       return unless @roll.nil?
       @roll = DiceRoller.instance.roll_and_ignore(@table.dice_to_roll, @rollset)
-      @value = @table.lookup(@roll).evaluate(@roll, @table)
+      @value = @table.evaluate(@roll)
     end
   end
 end

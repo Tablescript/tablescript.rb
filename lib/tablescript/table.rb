@@ -42,5 +42,9 @@ module Tablescript
     def lookup(roll)
       entry(roll - 1)
     end
+
+    def evaluate(roll)
+      lookup(roll).evaluate(roll, self)
+    end
   end
 end
