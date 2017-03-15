@@ -80,7 +80,7 @@ module Tablescript
         before(:each) do
           allow(RollAndIgnoreStrategy).to receive(:new) { strategy }
           allow(RollSet).to receive(:new) { rollset }
-          @value = environment.reroll_and_ignore(1,2,3)
+          @value = environment.reroll_and_ignore(1, 2, 3)
         end
 
         it 'creates a new reroll strategy' do
@@ -124,4 +124,3 @@ module Tablescript
     end
   end
 end
-

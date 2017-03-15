@@ -24,7 +24,7 @@ module Tablescript
 
     describe 'evaluate' do
       let(:roll) { 5 }
-      let(:blk) { Proc.new { 99 } }
+      let(:blk) { proc { 99 } }
       let(:table) { double('table') }
       let(:environment) { double('environment') }
       let(:entry) { TableEntry.new(:id, roll, blk) }

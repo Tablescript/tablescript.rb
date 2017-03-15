@@ -15,7 +15,7 @@ module Tablescript
     end
 
     describe 'dynamic' do
-      let(:blk) { Proc.new { 71 } }
+      let(:blk) { proc { 71 } }
       let(:generator) { TableGenerator.new }
 
       describe 'single' do
@@ -71,7 +71,7 @@ module Tablescript
     end
 
     describe 'fixed' do
-      let(:blk) { Proc.new { 17 } }
+      let(:blk) { proc { 17 } }
       let(:generator) { TableGenerator.new }
 
       describe 'single' do

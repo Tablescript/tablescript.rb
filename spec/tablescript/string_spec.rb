@@ -44,7 +44,7 @@ module Tablescript
       end
 
       it 'ignores a passed roll set' do
-        evens = RollSet.new(4,6,8,10,12,14,16,18)
+        evens = RollSet.new(4, 6, 8, 10, 12, 14, 16, 18)
         20.times do
           roll = '3d6'.roll_and_ignore(evens)
           expect(roll).to be_odd

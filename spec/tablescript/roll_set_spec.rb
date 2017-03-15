@@ -95,4 +95,3 @@ module Tablescript
     end
   end
 end
-
