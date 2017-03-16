@@ -16,58 +16,35 @@
 # along with Tablescript.  If not, see <http://www.gnu.org/licenses/>.
 
 module Tablescript
-  ##
-  # Api
-  #
-  class Api
-    def self.table(name, &blk)
+  module Api
+    def table(name, &blk)
       generator = TableGenerator.new
       generator.instance_eval(&blk)
       Library.instance.add(Table.new(name, generator.entries))
     end
 
-    def self.roll_on(name)
+    def roll_on(name)
       ensure_table_exists(name)
       RollStrategy.new(Library.instance.table(name)).value
     end
 
-    def self.roll_on_and_ignore(name, *args)
+    def roll_on_and_ignore(name, *args)
       ensure_table_exists(name)
       RollAndIgnoreStrategy.new(Library.instance.table(name), RollSet.new(*args)).value
     end
 
-    def self.roll_on_and_ignore_duplicates(name, times)
+    def roll_on_and_ignore_duplicates(name, times)
       ensure_table_exists(name)
       RollAndIgnoreDuplicatesStrategy.new(Library.instance.table(name), times).values
     end
 
-    def self.lookup(name, roll)
+    def lookup(name, roll)
       ensure_table_exists(name)
       LookupStrategy.new(Library.instance.table(name), roll).value
     end
-
-    def self.ensure_table_exists(name)
-      raise "No table named '#{name}'" unless Library.instance.table?(name)
-    end
   end
-end
 
-def table(name, &blk)
-  Tablescript::Api.table(name, &blk)
-end
-
-def roll_on(name)
-  Tablescript::Api.roll_on(name)
-end
-
-def roll_on_and_ignore(name, *args)
-  Tablescript::Api.roll_on_and_ignore(name, *args)
-end
-
-def roll_on_and_ignore_duplicates(name, times)
-  Tablescript::Api.roll_on_and_ignore_duplicates(name, times)
-end
-
-def lookup(name, roll)
-  Tablescript::Api.lookup(name, roll)
+  def ensure_table_exists(name)
+    raise "No table named '#{name}'" unless Library.instance.table?(name)
+  end
 end
