@@ -6,7 +6,7 @@ module Tablescript
     def initialize(table, roll_count, ignore = nil)
       @table = table
       @roll_count = roll_count
-      @roll_history = ignore || RollSet.new
+      @roll_history = ignore || RpgLib::RollSet.new
       @entry_ids = Set.new
       @rolls = []
       @values = []
@@ -46,7 +46,7 @@ module Tablescript
     end
 
     def next_roll(dice)
-      DiceRoller.instance.roll_and_ignore(dice, @roll_history)
+      RpgLib::DiceRoller.instance.roll_and_ignore(dice, @roll_history)
     end
   end
 end

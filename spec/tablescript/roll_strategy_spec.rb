@@ -11,7 +11,7 @@ module Tablescript
       let(:table) { double('table', dice_to_roll: dice) }
       let(:roll) { 6 }
       let(:value) { 'Vorpal sword' }
-      let(:roller) { DiceRoller.clone.instance }
+      let(:roller) { RpgLib::DiceRoller.clone.instance }
       let(:strategy) { RollStrategy.new(table, roller) }
 
       before(:each) do

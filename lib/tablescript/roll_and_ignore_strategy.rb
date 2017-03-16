@@ -6,7 +6,7 @@ module Tablescript
     def initialize(table, rollset, roller = nil)
       @table = table
       @rollset = rollset
-      @roller = roller || DiceRoller.instance
+      @roller = roller || RpgLib::DiceRoller.instance
       @roll = nil
       @value = nil
     end

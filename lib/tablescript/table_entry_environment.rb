@@ -45,11 +45,11 @@ module Tablescript
     end
 
     def reroll_and_ignore(*args)
-      RollAndIgnoreStrategy.new(@table, RollSet.new(*args)).value
+      RollAndIgnoreStrategy.new(@table, RpgLib::RollSet.new(*args)).value
     end
 
     def reroll_and_ignore_duplicates(times)
-      RollAndIgnoreDuplicatesStrategy.new(@table, times, RollSet.new(@entry.roll)).values
+      RollAndIgnoreDuplicatesStrategy.new(@table, times, RpgLib::RollSet.new(@entry.roll)).values
     end
   end
 end

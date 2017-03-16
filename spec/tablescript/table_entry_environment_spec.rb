@@ -79,7 +79,7 @@ module Tablescript
 
         before(:each) do
           allow(RollAndIgnoreStrategy).to receive(:new) { strategy }
-          allow(RollSet).to receive(:new) { rollset }
+          allow(RpgLib::RollSet).to receive(:new) { rollset }
           @value = environment.reroll_and_ignore(1, 2, 3)
         end
 
@@ -105,7 +105,7 @@ module Tablescript
         before(:each) do
           allow(RollAndIgnoreDuplicatesStrategy).to receive(:new) { strategy }
           allow(entry).to receive(:roll) { roll }
-          allow(RollSet).to receive(:new) { rollset }
+          allow(RpgLib::RollSet).to receive(:new) { rollset }
           @values = environment.reroll_and_ignore_duplicates(times)
         end
 

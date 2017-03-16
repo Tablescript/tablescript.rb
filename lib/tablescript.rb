@@ -15,11 +15,10 @@
 # You should have received a copy of the GNU General Public License
 # along with Tablescript.  If not, see <http://www.gnu.org/licenses/>.
 
+require 'rpg_lib'
+
 require 'tablescript/version'
 require 'tablescript/exception'
-require 'tablescript/roll_set'
-require 'tablescript/dice_roller'
-require 'tablescript/roll_descriptor'
 require 'tablescript/roll_strategy'
 require 'tablescript/roll_and_ignore_strategy'
 require 'tablescript/roll_and_ignore_duplicates_strategy'
@@ -33,4 +32,3 @@ $LOAD_PATH.push File.expand_path(ENV['TS_PATH']) unless ENV['TS_PATH'].nil?
 require 'tablescript/table_generator'
 require 'tablescript/library'
 require 'tablescript/api'
-require 'tablescript/string'

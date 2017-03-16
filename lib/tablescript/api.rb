@@ -71,19 +71,3 @@ end
 def lookup(name, roll)
   Tablescript::Api.lookup(name, roll)
 end
-
-def roll_dice(dice)
-  Tablescript::DiceRoller.instance.roll(dice.dup)
-end
-
-def roll_dice_and_ignore(dice, *args)
-  Tablescript::DiceRoller.instance.roll_and_ignore(dice.dup, Tablescript::RollSet.new(*args))
-end
-
-def choose(options)
-  options[Tablescript::DiceRoller.instance.random_value_in_range(1..options.size) - 1]
-end
-
-def roll_set(*args)
-  Tablescript::RollSet.new(*args)
-end

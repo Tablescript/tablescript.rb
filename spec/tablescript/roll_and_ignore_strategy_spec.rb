@@ -12,7 +12,7 @@ module Tablescript
       let(:rollset) { double('rollset') }
       let(:roll) { 6 }
       let(:value) { 'Vorpal sword' }
-      let(:roller) { DiceRoller.clone.instance }
+      let(:roller) { RpgLib::DiceRoller.clone.instance }
       let(:strategy) { RollAndIgnoreStrategy.new(table, rollset, roller) }
 
       before(:each) do
