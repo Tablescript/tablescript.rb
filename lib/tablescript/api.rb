@@ -21,7 +21,7 @@ module Tablescript
   #
   module Api
     def namespace(name, &blk)
-      generator = NamespaceGenerator.new(Library.instance.root.namespace(name))
+      generator = NamespaceGenerator.new(Library.instance.root.namespace(name.to_s))
       generator.instance_eval(&blk)
     end
 

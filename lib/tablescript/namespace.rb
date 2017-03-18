@@ -46,9 +46,14 @@ module Tablescript
     def resolve(path)
       parts = path.split('/')
       return table(path) if parts.size == 1
-      return table(parts[1]) if parts.size == 2 && parts[0] == @name
-      raise Exception, "Namespace #{parts[0]} not found in #{name} namespace (#{path})" unless @namespaces.key?(parts[0])
-      @namespaces[parts[0]].resolve(parts[1..-1].join('/'))
+      if parts[0] == @name
+        return table(parts[1]) if parts.size == 2
+        raise Exception, "Namespace #{parts[1]} not found in #{name} namespace (#{path})" unless @namespaces.key?(parts[1])
+        return @namespaces[parts[1]].resolve(parts[1..-1].join('/'))
+      else
+        raise Exception, "Namespace #{parts[0]} not found in #{name} namespace (#{path})" unless @namespaces.key?(parts[0])
+        return @namespaces[parts[0]].resolve(parts[1..-1].join('/'))
+      end
     end
 
     def table(table_name)

@@ -8,7 +8,7 @@ module Tablescript
     end
 
     def namespace(name, &blk)
-      generator = NamespaceGenerator(@scope.namespace(name))
+      generator = NamespaceGenerator.new(@scope.namespace(name.to_s))
       generator.instance_eval(&blk)
     end
 

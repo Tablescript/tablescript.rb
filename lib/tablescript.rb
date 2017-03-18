@@ -31,6 +31,7 @@ require 'tablescript/roll_context'
 $LOAD_PATH.push File.expand_path(ENV['TS_PATH']) unless ENV['TS_PATH'].nil?
 
 require 'tablescript/table_generator'
+require 'tablescript/namespace_generator'
 require 'tablescript/namespace'
 require 'tablescript/library'
 require 'tablescript/api'

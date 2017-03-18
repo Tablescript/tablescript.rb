@@ -27,6 +27,9 @@ module Tablescript
     end
 
     def table(path)
+      parts = path.split('/')
+      return @root.resolve(path) if parts.size == 1
+      return @root.resolve(parts[1..-1].join('/')) if parts[0].empty?
       @root.resolve(path)
     end
 
