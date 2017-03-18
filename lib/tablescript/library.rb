@@ -38,11 +38,11 @@ module Tablescript
     end
 
     def self.instance
-      @@instance ||= Library.new
+      @instance ||= Library.new
     end
 
-    def self.instance=(library)
-      @@instance = library
+    class << self
+      attr_writer :instance
     end
   end
 end

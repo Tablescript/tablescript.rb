@@ -8,7 +8,7 @@ module Tablescript
     end
 
     describe 'rolling' do
-      let(:values) { ['red', 'green', 'blue'] }
+      let(:values) { %w(red green blue) }
 
       before(:each) do
         Library.instance = Library.new
@@ -30,7 +30,7 @@ module Tablescript
       describe 'roll_on_and_ignore' do
         it 'rolls on the table and ignores certain rolls' do
           10.times do
-            expect(['red', 'blue']).to include(api.roll_on_and_ignore(:colours, 2))
+            expect(%w(red blue)).to include(api.roll_on_and_ignore(:colours, 2))
           end
         end
       end

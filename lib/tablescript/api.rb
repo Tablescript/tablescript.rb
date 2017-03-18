@@ -16,6 +16,9 @@
 # along with Tablescript.  If not, see <http://www.gnu.org/licenses/>.
 
 module Tablescript
+  ##
+  # Api
+  #
   module Api
     def table(name, &blk)
       generator = TableGenerator.new
