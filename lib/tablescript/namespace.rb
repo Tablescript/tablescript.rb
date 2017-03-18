@@ -20,7 +20,7 @@ module Tablescript
   # Namespace
   #
   class Namespace
-    attr_reader :parent
+    attr_reader :parent, :namespaces, :tables
 
     def initialize(name = '', parent = nil)
       @name = name
@@ -74,5 +74,12 @@ module Tablescript
       @name
     end
 
+    def each_namespace(&blk)
+      @namespaces.each_value(&blk)
+    end
+
+    def each_table(&blk)
+      @tables.each_value(&blk)
+    end
   end
 end

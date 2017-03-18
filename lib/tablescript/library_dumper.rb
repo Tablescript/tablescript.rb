@@ -22,7 +22,7 @@ module Tablescript
     def dump_tables(tables, level)
       return if tables.empty?
       @stream.puts indent(level) + 'Tables:'
-      tables.each do |table|
+      tables.each_value do |table|
         @stream.puts indent(level + 1) + table.name
       end
     end
@@ -30,8 +30,8 @@ module Tablescript
     def dump_namespaces(namespaces, level)
       return if namespaces.empty?
       @stream.puts indent(level) + 'Namespaces:'
-      namespaces.each do |namespace|
-        @stream.puts indent(level + 1) + namespace.name
+      namespaces.each_value do |namespace|
+        dump_namespace(namespace, level + 1)
       end
     end
 
