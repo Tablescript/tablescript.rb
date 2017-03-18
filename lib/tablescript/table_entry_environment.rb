@@ -31,23 +31,23 @@ module Tablescript
     end
 
     def lookup(roll)
-      @table.lookup(roll).evaluate(roll)
+      LookupStrategy.new(@table, roll).value
     end
 
     def roll_on(path)
-      RollStrategy.new(resolve(path)).value
+      RollStrategy.new(resolve(path.to_s)).value
     end
 
     def roll_on_and_ignore(path, *args)
-      RollAndIgnoreStrategy.new(resolve(path), RpgLib::RollSet.new(*args)).value
+      RollAndIgnoreStrategy.new(resolve(path.to_s), RpgLib::RollSet.new(*args)).value
     end
 
     def roll_on_and_ignore_duplicates(path, times)
-      RollAndIgnoreDuplicatesStrategy.new(resolve(path), times).value
+      RollAndIgnoreDuplicatesStrategy.new(resolve(path.to_s), times).value
     end
 
     def lookup_on(path, roll)
-      LookupStrategy.new(resolve(path), roll).value
+      LookupStrategy.new(resolve(path.to_s), roll).value
     end
 
     def reroll
