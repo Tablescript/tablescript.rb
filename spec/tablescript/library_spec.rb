@@ -8,7 +8,11 @@ module Tablescript
 
     describe 'add' do
       let(:table) { double('table', name: :table) }
-      let(:library) { Library.clone.instance }
+      let(:library) { Library.instance }
+
+      before(:each) do
+        Library.instance = Library.new
+      end
 
       it 'knows it has added table' do
         library.add(table)

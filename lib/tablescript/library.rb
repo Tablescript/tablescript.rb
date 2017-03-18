@@ -15,15 +15,11 @@
 # You should have received a copy of the GNU General Public License
 # along with Tablescript.  If not, see <http://www.gnu.org/licenses/>.
 
-require 'singleton'
-
 module Tablescript
   ##
   # Library
   #
   class Library
-    include Singleton
-
     def initialize
       @tables = {}
     end
@@ -39,6 +35,14 @@ module Tablescript
 
     def table?(name)
       @tables.key?(name)
+    end
+
+    def self.instance
+      @@instance ||= Library.new
+    end
+
+    def self.instance=(library)
+      @@instance = library
     end
   end
 end

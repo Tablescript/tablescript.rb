@@ -30,7 +30,7 @@ module Tablescript
 
     def roll_on_and_ignore(name, *args)
       ensure_table_exists(name)
-      RollAndIgnoreStrategy.new(Library.instance.table(name), RollSet.new(*args)).value
+      RollAndIgnoreStrategy.new(Library.instance.table(name), RpgLib::RollSet.new(*args)).value
     end
 
     def roll_on_and_ignore_duplicates(name, times)
@@ -42,9 +42,9 @@ module Tablescript
       ensure_table_exists(name)
       LookupStrategy.new(Library.instance.table(name), roll).value
     end
-  end
 
-  def ensure_table_exists(name)
-    raise "No table named '#{name}'" unless Library.instance.table?(name)
+    def ensure_table_exists(name)
+      raise "No table named '#{name}'" unless Library.instance.table?(name)
+    end
   end
 end
