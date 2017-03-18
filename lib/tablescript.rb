@@ -26,10 +26,12 @@ require 'tablescript/lookup_strategy'
 require 'tablescript/path'
 require 'tablescript/table'
 require 'tablescript/table_entry'
+require 'tablescript/roll_context'
 require 'tablescript/table_entry_environment'
 
 $LOAD_PATH.push File.expand_path(ENV['TS_PATH']) unless ENV['TS_PATH'].nil?
 
 require 'tablescript/table_generator'
+require 'tablescript/namespace'
 require 'tablescript/library'
 require 'tablescript/api'

@@ -20,24 +20,34 @@ module Tablescript
   # TableEntryEnvironment
   #
   class TableEntryEnvironment
-    attr_reader :roll
-
     def initialize(roll, table, entry)
       @roll = roll
       @table = table
       @entry = entry
     end
 
-    def table_name
-      @table.name
-    end
-
-    def dice_to_roll
-      @table.dice_to_roll
+    def context
+      RollContext.new(@roll, @table, @entry)
     end
 
     def lookup(roll)
       @table.lookup(roll).evaluate(roll)
+    end
+
+    def roll_on(path)
+      RollStrategy.new(resolve(path)).value
+    end
+
+    def roll_on_and_ignore(path, *args)
+      RollAndIgnoreStrategy.new(resolve(path), RpgLib::RollSet.new(*args)).value
+    end
+
+    def roll_on_and_ignore_duplicates(path, times)
+      RollAndIgnoreDuplicatesStrategy.new(resolve(path), times).value
+    end
+
+    def lookup_on(path, roll)
+      LookupStrategy.new(resolve(path), roll).value
     end
 
     def reroll
@@ -50,6 +60,17 @@ module Tablescript
 
     def reroll_and_ignore_duplicates(times)
       RollAndIgnoreDuplicatesStrategy.new(@table, times, RpgLib::RollSet.new(@entry.roll)).values
+    end
+
+    private
+
+    def resolve(path)
+      namespace = @table.namespace
+      until namespace.nil?
+        return namespace.resolve(path) if namespace.resolve?(path)
+        namespace = namespace.parent
+      end
+      raise Exception, "No such table #{path}"
     end
   end
 end

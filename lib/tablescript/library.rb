@@ -20,21 +20,14 @@ module Tablescript
   # Library
   #
   class Library
+    attr_reader :root
+
     def initialize
-      @tables = {}
+      @root = Namespace.new
     end
 
-    def add(table)
-      raise Exception, "Table #{table.name} already defined" if @tables.key?(table.name)
-      @tables[table.name] = table
-    end
-
-    def table(name)
-      @tables[name]
-    end
-
-    def table?(name)
-      @tables.key?(name)
+    def table(path)
+      @root.resolve(path)
     end
 
     def self.instance

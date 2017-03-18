@@ -34,6 +34,16 @@ module Tablescript
       results.join('/')
     end
 
+    def self.scopes(current, path)
+      current_scope = split(current)
+      results = []
+      until current_scope.empty?
+        results << resolve(join(current_scope.join('/'), path))
+        current_scope.pop
+      end
+      results
+    end
+
     private
 
     def initialize

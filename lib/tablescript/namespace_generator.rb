@@ -8,14 +8,14 @@ module Tablescript
     end
 
     def namespace(name, &blk)
-      generator = NamespaceGenerator(@scope + '/' + name)
+      generator = NamespaceGenerator(@scope.namespace(name))
       generator.instance_eval(&blk)
     end
 
-    def table(name, description, &blk)
-      generator = TableGenerator.new(name, description)
+    def table(name, &blk)
+      generator = TableGenerator.new
       generator.instance_eval(&blk)
-      Library.instance.add(Table.new(@scope + '/' + name, description))
+      @scope.add(Table.new(name.to_s, @scope, generator.entries))
     end
   end
 end

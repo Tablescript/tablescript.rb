@@ -21,46 +21,31 @@ module Tablescript
   #
   module Api
     def namespace(name, &blk)
-      generator = NamespaceGenerator.new(Path.join('/', name.to_s))
+      generator = NamespaceGenerator.new(Library.instance.root.namespace(name))
       generator.instance_eval(&blk)
     end
 
     def table(name, &blk)
       generator = TableGenerator.new
       generator.instance_eval(&blk)
-      Library.instance.add(Table.new(Path.join('/', name.to_s), generator.entries))
+      root_namespace = Library.instance.root
+      root_namespace.add(Table.new(name.to_s, root_namespace, generator.entries))
     end
 
-    def roll_on(name)
-      table = Library.instance.table(name.to_s)
-      table = Library.instance.table(Path.join('/', name.to_s)) if table.nil?
-      raise "No table named '#{name}'" if table.nil?
-      RollStrategy.new(table).value
+    def roll_on(path)
+      RollStrategy.new(Library.instance.table(path.to_s)).value
     end
 
-    def roll_on_and_ignore(name, *args)
-      table = Library.instance.table(name.to_s)
-      table = Library.instance.table(Path.join('/', name.to_s)) if table.nil?
-      raise "No table named '#{name}'" if table.nil?
-      RollAndIgnoreStrategy.new(table, RpgLib::RollSet.new(*args)).value
+    def roll_on_and_ignore(path, *args)
+      RollAndIgnoreStrategy.new(Library.instance.table(path.to_s), RpgLib::RollSet.new(*args)).value
     end
 
-    def roll_on_and_ignore_duplicates(name, times)
-      table = Library.instance.table(name.to_s)
-      table = Library.instance.table(Path.join('/', name.to_s)) if table.nil?
-      raise "No table named '#{name}'" if table.nil?
-      RollAndIgnoreDuplicatesStrategy.new(table, times).values
+    def roll_on_and_ignore_duplicates(path, times)
+      RollAndIgnoreDuplicatesStrategy.new(Library.instance.table(path.to_s), times).values
     end
 
-    def lookup(name, roll)
-      table = Library.instance.table(name.to_s)
-      table = Library.instance.table(Path.join('/', name.to_s)) if table.nil?
-      raise "No table named '#{name}'" if table.nil?
-      LookupStrategy.new(table, roll).value
-    end
-
-    def ensure_table_exists(name)
-      raise "No table named '#{name}'" unless Library.instance.table?(name)
+    def lookup(path, roll)
+      LookupStrategy.new(Library.instance.table(path.to_s), roll).value
     end
   end
 end

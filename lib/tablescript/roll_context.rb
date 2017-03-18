@@ -17,36 +17,23 @@
 
 module Tablescript
   ##
-  # Table
   #
-  class Table
-    attr_reader :name, :namespace, :entries
+  #
+  class RollContext
+    attr_reader :roll
 
-    def initialize(name, namespace, entries)
-      @name = name
-      @namespace = namespace
-      @entries = entries
+    def initialize(roll, table, entry)
+      @roll = roll
+      @table = table
+      @entry = entry
     end
 
-    def dice_to_roll
-      "d#{size}"
+    def table_name
+      @table.name
     end
 
-    def size
-      @entries.size
-    end
-
-    def entry(index)
-      @entries[index]
-    end
-
-    def lookup(roll)
-      raise Exception, "No such entry (#{roll}) in table #{@name}" if entry(roll - 1).nil?
-      entry(roll - 1)
-    end
-
-    def evaluate(roll)
-      lookup(roll).evaluate(roll, self)
+    def dice_rolled
+      @table.dice_to_roll
     end
   end
 end
