@@ -37,7 +37,7 @@ module Tablescript
     def resolve?(path)
       begin
         resolve(path)
-      rescue Exception => e
+      rescue Tablescript::Exception
         return false
       end
       true
