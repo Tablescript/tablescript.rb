@@ -1,33 +1,26 @@
-# Copyright 2017 Jamie Hale
-#
-# This file is part of the Tablescript gem.
-#
-# Tablescript is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# Tablescript is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with Tablescript.  If not, see <http://www.gnu.org/licenses/>.
-
 module Tablescript
   ##
-  # TableGenerator
+  # TableEntries
   #
-  class TableGenerator
-    attr_reader :entries
-
-    def initialize(name, namespace)
+  class TableEntries
+    def initialize
       @entries = []
       @next_id = 0
     end
 
-    def fixed(roll = nil, &blk)
+    def size
+      @entries.size
+    end
+
+    def entry(index)
+      @entries[index]
+    end
+
+    def lookup(roll)
+      entry(roll - 1)
+    end
+
+    def add_fixed(roll, &blk)
       if roll.nil?
         add_entry(blk)
       elsif roll.is_a?(Integer)
@@ -39,15 +32,11 @@ module Tablescript
       end
     end
 
-    alias f fixed
-
-    def dynamic(count = 1, &blk)
+    def add_dynamic(count, &blk)
       range = next_single_roll..(next_single_roll + count - 1)
       entry = TableEntry.new(next_id, range, blk)
       count.times { @entries << entry }
     end
-
-    alias d dynamic
 
     private
 

@@ -20,33 +20,56 @@ module Tablescript
   # Table
   #
   class Table
-    attr_reader :name, :namespace, :entries
+    attr_reader :name, :entries
 
-    def initialize(name, namespace, entries)
+    def initialize(name, namespace, &blk)
       @name = name
       @namespace = namespace
-      @entries = entries
+      @entries = TableEntries.new
+      instance_eval(&blk)
     end
 
-    def dice_to_roll
-      "d#{size}"
+    def f(roll = nil, &blk)
+      @entries.add_fixed(roll, &blk)
     end
 
-    def size
-      @entries.size
-    end
-
-    def entry(index)
-      @entries[index]
+    def d(count = 1, &blk)
+      @entries.add_dynamic(count, &blk)
     end
 
     def lookup(roll)
-      raise Exception, "No such entry (#{roll}) in table #{@name}" if entry(roll - 1).nil?
-      entry(roll - 1)
+      @entries.lookup(roll).evaluate(roll, self)
     end
 
-    def evaluate(roll)
-      lookup(roll).evaluate(roll, self)
+    def lookup_on(path, roll)
+      LookupStrategy.new(resolve(path.to_s), roll).value
+    end
+
+    def dice_to_roll
+      "d#{@entries.size}"
+    end
+
+    def roll_on(path)
+      RollStrategy.new(resolve(path.to_s)).value
+    end
+
+    def roll_on_and_ignore(path, *args)
+      RollAndIgnoreStrategy.new(resolve(path.to_s), RpgLib::RollSet.new(*args)).value
+    end
+
+    def roll_on_and_ignore_duplicates(path, times)
+      RollAndIgnoreDuplicatesStrategy.new(resolve(path.to_s), times).value
+    end
+
+    private
+
+    def resolve(path)
+      namespace = @namespace
+      until namespace.nil?
+        return namespace.resolve(path) if namespace.resolve?(path)
+        namespace = namespace.parent
+      end
+      raise Exception, "No such table #{path}"
     end
   end
 end

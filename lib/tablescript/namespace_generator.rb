@@ -13,9 +13,8 @@ module Tablescript
     end
 
     def table(name, &blk)
-      generator = TableGenerator.new
-      generator.instance_eval(&blk)
-      @scope.add(Table.new(name.to_s, @scope, generator.entries))
+      table = Table.new(name.to_s, @scope, &blk)
+      @scope.add(table)
     end
   end
 end

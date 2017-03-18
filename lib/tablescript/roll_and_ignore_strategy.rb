@@ -43,7 +43,7 @@ module Tablescript
     def evaluate
       return unless @roll.nil?
       @roll = @roller.roll_and_ignore(@table.dice_to_roll, @rollset)
-      @value = @table.evaluate(@roll)
+      @value = @table.lookup(@roll)
     end
   end
 end

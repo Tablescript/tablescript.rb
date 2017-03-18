@@ -41,8 +41,8 @@ module Tablescript
 
     def evaluate
       return unless @roll.nil?
-      @roll = @roller.roll(@table.dice_to_roll)
-      @value = @table.evaluate(@roll)
+      @roll = @roller.roll_die(@table.entries.size)
+      @value = @table.lookup(@roll)
     end
   end
 end

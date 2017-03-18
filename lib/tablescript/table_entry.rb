@@ -28,9 +28,8 @@ module Tablescript
       @blk = blk
     end
 
-    def evaluate(roll, table, entry_environment = nil)
-      environment = entry_environment || TableEntryEnvironment.new(roll, table, self)
-      environment.instance_eval(&@blk)
+    def evaluate(roll, table)
+      table.instance_exec(RollContext.new(roll, table, self), &@blk)
     end
   end
 end

@@ -35,5 +35,17 @@ module Tablescript
     def dice_rolled
       @table.dice_to_roll
     end
+
+    def reroll
+      RollStrategy.new(@table).value
+    end
+
+    def reroll_and_ignore(*args)
+      RollAndIgnoreStrategy.new(@table, RpgLib::RollSet.new(*args)).value
+    end
+
+    def reroll_and_ignore_duplicates(times)
+      RollAndIgnoreDuplicatesStrategy.new(@table, times, RpgLib::RollSet.new(@entry.roll)).values
+    end
   end
 end

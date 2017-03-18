@@ -26,10 +26,9 @@ module Tablescript
     end
 
     def table(name, &blk)
-      generator = TableGenerator.new
-      generator.instance_eval(&blk)
       root_namespace = Library.instance.root
-      root_namespace.add(Table.new(name.to_s, root_namespace, generator.entries))
+      table = Table.new(name.to_s, root_namespace, &blk)
+      root_namespace.add(table)
     end
 
     def roll_on(path)

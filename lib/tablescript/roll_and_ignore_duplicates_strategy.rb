@@ -50,7 +50,7 @@ module Tablescript
 
     def roll_next_value
       roll = next_roll(@table.dice_to_roll)
-      entry = @table.lookup(roll)
+      entry = @table.entries.lookup(roll)
       return if @entry_ids.include?(entry.id)
       record(roll, entry)
     end

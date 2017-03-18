@@ -68,5 +68,25 @@ module Tablescript
       return 'global' if @parent.nil?
       @name
     end
+
+    def dump(level = 0)
+      puts indent(level) + "Namespace #{name}"
+      unless @tables.empty?
+        puts indent(level + 1) + "Tables:"
+        @tables.each_value do |table|
+          puts indent(level + 2) + table.name
+        end
+      end
+      unless @namespaces.empty?
+        puts indent(level + 1) + "Namespaces:"
+        @namespaces.each_value do |namespace|
+          namespace.dump(level + 2)
+        end
+      end
+    end
+
+    def indent(level)
+      "  " * level
+    end
   end
 end
