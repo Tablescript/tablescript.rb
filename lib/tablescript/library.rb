@@ -33,10 +33,6 @@ module Tablescript
       @root.resolve(path)
     end
 
-    def dump
-      @root.dump
-    end
-
     def self.instance
       @instance ||= Library.new
     end
