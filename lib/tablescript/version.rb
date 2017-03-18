@@ -16,5 +16,5 @@
 # along with Tablescript.  If not, see <http://www.gnu.org/licenses/>.
 
 module Tablescript
-  VERSION = '0.0.4'.freeze
+  VERSION = '1.0.0'.freeze
 end

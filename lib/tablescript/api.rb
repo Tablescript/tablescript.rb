@@ -20,30 +20,43 @@ module Tablescript
   # Api
   #
   module Api
+    def namespace(name, &blk)
+      generator = NamespaceGenerator.new(Path.join('/', name.to_s))
+      generator.instance_eval(&blk)
+    end
+
     def table(name, &blk)
       generator = TableGenerator.new
       generator.instance_eval(&blk)
-      Library.instance.add(Table.new(name, generator.entries))
+      Library.instance.add(Table.new(Path.join('/', name.to_s), generator.entries))
     end
 
     def roll_on(name)
-      ensure_table_exists(name)
-      RollStrategy.new(Library.instance.table(name)).value
+      table = Library.instance.table(name.to_s)
+      table = Library.instance.table(Path.join('/', name.to_s)) if table.nil?
+      raise "No table named '#{name}'" if table.nil?
+      RollStrategy.new(table).value
     end
 
     def roll_on_and_ignore(name, *args)
-      ensure_table_exists(name)
-      RollAndIgnoreStrategy.new(Library.instance.table(name), RpgLib::RollSet.new(*args)).value
+      table = Library.instance.table(name.to_s)
+      table = Library.instance.table(Path.join('/', name.to_s)) if table.nil?
+      raise "No table named '#{name}'" if table.nil?
+      RollAndIgnoreStrategy.new(table, RpgLib::RollSet.new(*args)).value
     end
 
     def roll_on_and_ignore_duplicates(name, times)
-      ensure_table_exists(name)
-      RollAndIgnoreDuplicatesStrategy.new(Library.instance.table(name), times).values
+      table = Library.instance.table(name.to_s)
+      table = Library.instance.table(Path.join('/', name.to_s)) if table.nil?
+      raise "No table named '#{name}'" if table.nil?
+      RollAndIgnoreDuplicatesStrategy.new(table, times).values
     end
 
     def lookup(name, roll)
-      ensure_table_exists(name)
-      LookupStrategy.new(Library.instance.table(name), roll).value
+      table = Library.instance.table(name.to_s)
+      table = Library.instance.table(Path.join('/', name.to_s)) if table.nil?
+      raise "No table named '#{name}'" if table.nil?
+      LookupStrategy.new(table, roll).value
     end
 
     def ensure_table_exists(name)
