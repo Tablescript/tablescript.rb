@@ -15,15 +15,15 @@ module Tablescript
       let(:environment) { TableEntryEnvironment.new(roll, table, entry) }
 
       it 'knows its roll' do
-        expect(environment.roll).to eq(roll)
+        expect(environment.context.roll).to eq(roll)
       end
 
       it 'knows its name' do
-        expect(environment.table_name).to eq(table_name)
+        expect(environment.context.table_name).to eq(table_name)
       end
 
       it 'knows the table\'s dice' do
-        expect(environment.dice_to_roll).to eq(dice)
+        expect(environment.context.dice_rolled).to eq(dice)
       end
 
       describe 'lookup' do

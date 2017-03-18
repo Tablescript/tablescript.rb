@@ -3,12 +3,12 @@ require 'spec_helper'
 module Tablescript
   describe Table do
     it 'can be created' do
-      expect { Table.new(:name, :entries) }.not_to raise_error
+      expect { Table.new(:name, :namespace, :entries) }.not_to raise_error
     end
 
     describe 'dice_to_roll' do
       describe 'small table' do
-        let(:table) { Table.new(:name, [:entry] * 5) }
+        let(:table) { Table.new(:name, :namespace, [:entry] * 5) }
 
         it 'knows its size' do
           expect(table.size).to be 5
@@ -20,7 +20,7 @@ module Tablescript
       end
 
       describe 'large table' do
-        let(:table) { Table.new(:name, [:entry] * 100) }
+        let(:table) { Table.new(:name, :namespace, [:entry] * 100) }
 
         it 'knows its size' do
           expect(table.size).to be 100
@@ -38,7 +38,7 @@ module Tablescript
       let(:entry3) { double('entry3') }
       let(:entry4) { double('entry4') }
       let(:entries) { [entry1, entry2, entry3, entry4] }
-      let(:table) { Table.new(:name, entries) }
+      let(:table) { Table.new(:name, :namespace, entries) }
 
       describe 'lookup' do
         it 'knows its entries by roll' do
@@ -69,7 +69,7 @@ module Tablescript
       let(:entry) { double('entry') }
       let(:entries) { [entry] }
       let(:value) { 9 }
-      let(:table) { Table.new(:name, entries) }
+      let(:table) { Table.new(:name, :namespace, entries) }
 
       before(:each) do
         allow(entry).to receive(:evaluate) { value }

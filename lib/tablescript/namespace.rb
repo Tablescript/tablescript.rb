@@ -56,6 +56,10 @@ module Tablescript
       @tables[table_name]
     end
 
+    def table?(table_name)
+      @tables.key?(table_name)
+    end
+
     def namespace(name)
       @namespaces[name] ||= Namespace.new(name, self)
     end
