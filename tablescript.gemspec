@@ -36,7 +36,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
   spec.metadata['allowed_push_host'] = 'https://rubygems.org'
   spec.add_dependency 'rpg_lib', '~> 1.0'
-  spec.add_development_dependency 'bundler', '~> 1.14'
+  spec.add_development_dependency "bundler", ">= 2.2.10"
   spec.add_development_dependency 'rake', '~> 12.0'
   spec.add_development_dependency 'rspec', '~> 3.5'
   spec.add_development_dependency 'simplecov', '~> 0.13'
